@@ -1,9 +1,10 @@
 import React from 'react'
-
 const Square = (h) => {
     return (
-        
-            <button>{h.val}</button>
+    
+            <button type="button" className='square'>{h.val}</button>
+    
+            
         
     )
 }
