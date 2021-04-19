@@ -55,10 +55,13 @@ const App = () => {
         handleSquareClick={handleSquareClick}
         winningSquares={winningSquares}
       />
-      <button type="button" onClick={onNewGame}>
+      <button type="button" onClick={onNewGame} className={`btn-reset ${winner ? 'active' : ''}`}
+      >
         Start new game
       </button>
+      <h2 style={{fontWeight :'normal'}}>Current Game history</h2>
       <History history={history} moveTo={moveTo} currentMove={currentMove} />
+    <div className="bg-balls"/>
     </div>
   );
 };
