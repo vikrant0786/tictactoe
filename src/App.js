@@ -1,23 +1,21 @@
 import React, { useState } from 'react';
 import Board from './components/Board';
-import { calculateWinner } from './helper';
 import History from './components/History';
-import './styles/root.scss';
 import StatusMessage from './components/StatusMessage';
-const App = () => {
-  const [history, setHistory] = useState([
-    { board: Array(9).fill(null), isXNext: true },
-  ]);
-  const [currentMove, setCurrentMove] = useState(0);
+import { calculateWinner } from './helpers';
 
+import './styles/root.scss';
+
+const NEW_GAME = [{ board: Array(9).fill(null), isXNext: true }];
+
+const App = () => {
+  const [history, setHistory] = useState(NEW_GAME);
+  const [currentMove, setCurrentMove] = useState(0);
   const current = history[currentMove];
 
-  console.log('history', history);
+  const { winner, winningSquares } = calculateWinner(current.board);
 
-  const winner = calculateWinner(current.board);
-
-
-  const handelSquareClick = position => {
+  const handleSquareClick = position => {
     if (current.board[position] || winner) {
       return;
     }
@@ -39,16 +37,28 @@ const App = () => {
     setCurrentMove(prev => prev + 1);
   };
 
-  const moveTo=(move)=>
-  {
+  const moveTo = move => {
     setCurrentMove(move);
   };
+
+  const onNewGame = () => {
+    setHistory(NEW_GAME);
+    setCurrentMove(0);
+  };
+
   return (
     <div className="app">
       <h1>TIC TAC TOE</h1>
-      <StatusMessage winner={winner} current={current}/>
-      <Board board={current.board} handelSquareClick={handelSquareClick} />
-      <History history={history} moveTo={moveTo} currentMove={currentMove}/>
+      <StatusMessage winner={winner} current={current} />
+      <Board
+        board={current.board}
+        handleSquareClick={handleSquareClick}
+        winningSquares={winningSquares}
+      />
+      <button type="button" onClick={onNewGame}>
+        Start new game
+      </button>
+      <History history={history} moveTo={moveTo} currentMove={currentMove} />
     </div>
   );
 };
